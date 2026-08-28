@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you create the structured semantic store for Example Motors' service appointment questions. The environment already includes the Autonomous AI Database, schema, seed data, Vault secret, and Database Tools connections. The semantic store connects OCI Enterprise AI to that database through the provided Database Tools connections. The sample app sends natural language questions to the NL2SQL API for this semantic store, validates the generated SQL, and retrieves the data through the ADB MCP Server.
+In this lab, you create the structured semantic store for construction project, supplier, inspection, schedule, and compliance questions. The environment already includes the Autonomous AI Database, Construction Engineering schema, seed data, Vault secret, and Database Tools connections. The sample app sends natural-language questions to NL2SQL, validates the generated SQL, and retrieves governed Gold-view data through the ADB MCP Server.
 
 Estimated Time: 10 minutes
 
@@ -11,7 +11,7 @@ Estimated Time: 10 minutes
 In this lab, you will:
 
 - Create a structured semantic store
-- Connect the semantic store to the pre-created service database
+- Connect the semantic store to the pre-created construction intelligence database
 - Run the semantic enrichment
 - Record the semantic store OCID for the sample app
 
@@ -34,8 +34,8 @@ This lab assumes you have:
 1. Enter the following values:
 
     ```text
-    Name: car-manufacturer-service
-    Description: Example Motors service appointment semantic store
+    Name: seer-construction-semantic
+    Description: Governed construction project and supplier semantic store
     Compartment: <workshop-compartment>
     Data source type: Structured data
     Connection type: OCI Database tool
@@ -48,7 +48,7 @@ This lab assumes you have:
     ```text
     Enrichment connection ID: <DB Tools Enrichment Connection OCID>
     Querying connection ID: <DB Tools Query Connection OCID>
-    Schema: ADMIN
+    Schema: CONSTRUCTION_ENGINEERING
     Automation: On create
     ```
 
@@ -60,11 +60,11 @@ This lab assumes you have:
 
 1. Click **Create**.
 
-1. Wait for the `car-manufacturer-service` semantic store to reach the `Active` state.
+1. Wait for `seer-construction-semantic` to reach **Active** and confirm that semantic enrichment completed successfully. Do not continue while enrichment is queued, running, or failed.
 
 1. Copy the semantic store OCID and record it as the value for `Structured semantic store OCID`.
 
-At this stage, we have a Semantic Store connected to the sandbox database. The Semantic Store will help us generate SQL queries from natural language to retrieve relevant information from the database.
+At this stage, the Semantic Store can generate SQL from natural language against the governed construction Gold views and execute it through the workshop database connection.
 
 You may now **proceed to the next lab**.
 
