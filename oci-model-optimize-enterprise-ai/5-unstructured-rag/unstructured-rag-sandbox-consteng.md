@@ -96,7 +96,7 @@ Each project supports separate lifecycle and compliance boundaries. Reference th
 
     Use the reservation-specific child compartment from your sandbox resource list.
 
-    ![Create project basic information](images/create-project-basic-information.png)
+    ![Create the Seer Construction Intelligence project](images/create-project-basic-information-consteng.jpg)
 
 1. Observe the response and conversation retention for the workshop.
 
@@ -136,7 +136,7 @@ The unstructured vector store scans files, splits them into chunks, embeds the c
 
 2. Select **Vector stores**.
 
-    ![Vector stores list](images/vector-stores.png)
+    ![Construction Engineering vector stores](images/vector-stores-consteng.jpg)
 
 3. Click **Create vector store**.
 
@@ -150,7 +150,7 @@ The unstructured vector store scans files, splits them into chunks, embeds the c
     - Select the reservation-specific child compartment from your sandbox resource list.
     - Under **Data source type**, select **Unstructured data**.
 
-    ![Create vector store with unstructured data source](images/create-vector-stores.png)
+    ![Create the construction evidence vector store](images/create-vector-store-consteng.jpg)
 
 5. Click **Create**.
 

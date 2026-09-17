@@ -11,9 +11,9 @@ Estimated Time: 15 minutes
 ### Objectives
 
 - Review managed deployment options for OCI Enterprise AI applications
-- Launch a pre-built Construction Engineering image from Cloud Shell
-- Connect specification search and governed construction-data retrieval
-- Confirm resource-principal authentication and application health
+- Launch the pre-built application with the generated helper
+- Confirm specification search and governed construction-data retrieval
+- Verify application health and resource-principal authentication
 
 ### Prerequisites
 
@@ -24,9 +24,9 @@ Estimated Time: 15 minutes
 
 ## Task 1: Review the deployment choice
 
-OCI Generative AI hosted applications provide a managed production path for packaging and operating agentic applications close to the service. Hosted applications are reserved for customer deployments in this workshop because the shared training tenancies cannot allocate one hosted application to every attendee at event scale.
+OCI Generative AI hosted applications are the managed production option for packaging, deploying, and operating agentic applications close to the service. The shared workshop tenancies have a service limit of 50 hosted applications, so they cannot allocate one hosted application to every participant at event scale. Customer tenancies are not constrained by this workshop allocation model and can request limits appropriate for their deployment.
 
-Container Instances demonstrates the same OCI-native pattern without requiring a server or Kubernetes cluster. The public OCIR image contains application code only. Runtime OCIDs are injected as environment variables, and a pre-created dynamic group and IAM policy let the container resource principal call OCI Enterprise AI and read the workshop Vault secret.
+This workshop uses OCI Container Instances to preserve the important architecture: an OCI-hosted application, resource-principal authentication, OCI Enterprise AI tools, and no long-lived credentials in the image. The public OCIR repository contains application code only. Terraform injects the pre-created database, Vault, region, image, subnet, and sizing values into the generated helper.
 
 ## Task 2: Confirm readiness
 
@@ -36,7 +36,9 @@ Container Instances demonstrates the same OCI-native pattern without requiring a
 
 3. Keep the project OCID, unstructured vector store ID, and semantic store OCID available. These are the only values the helper asks you to enter.
 
-## Task 3: Download the generated helper
+4. Confirm that the LiveLabs public subnet security list permits inbound TCP traffic on port `8080`. The workshop uses the subnet security list; it does not require a network security group.
+
+## Task 3: Download and inspect the generated helper
 
 1. Open Cloud Shell in the workshop region.
 
@@ -53,11 +55,11 @@ Container Instances demonstrates the same OCI-native pattern without requiring a
 
     ```bash
     <copy>
-    sed -n '1,45p' launch-container-instance.sh
+    sed -n '1,55p' launch-container-instance.sh
     </copy>
     ```
 
-    The compartment, subnet, network security group, Construction Engineering database and Vault secret, region, image URL, and resource sizing come from Terraform output.
+    The compartment, public subnet, Construction Engineering database and Vault secret, region, public OCIR image URL, port `8080`, and resource sizing come from Terraform. The script does not contain an OCI user credential.
 
 ## Task 4: Launch Seer Construction Intelligence
 
@@ -71,33 +73,31 @@ Container Instances demonstrates the same OCI-native pattern without requiring a
 
 2. Paste the project OCID, unstructured vector store ID, and semantic store OCID when prompted.
 
-3. Wait for **ACTIVE**. The helper prints the Container Instance OCID and application URL.
+3. Wait for the Container Instance to reach **ACTIVE**. The helper prints the Container Instance OCID and application URL.
 
-    The instance uses 1 OCPU and 4 GB of memory. `OCI_AUTH_MODE=resource_principal` tells both the OCI SDK and OCI Generative AI authentication helper to use credentials injected and rotated by OCI.
+    The instance uses 1 OCPU and 4 GB of memory. `OCI_AUTH_MODE=resource_principal` tells the OCI SDK and OCI Generative AI authentication helper to use credentials injected and rotated by OCI.
 
 ## Task 5: Validate the application
 
-1. Open the application URL. If the page is not ready immediately, wait 30 seconds and refresh. The image checks Streamlit's `/_stcore/health` endpoint.
+1. Open the application URL. If the page is not ready immediately, wait 30 seconds and refresh. The Gradio application responds on port `8080`.
 
-2. Ask the unstructured retrieval question:
+    ![Seer Construction Intelligence application](images/seer-gradio-home-consteng.png)
 
-    ```text
-    What structural engineering requirements are stated for the Austin project?
-    ```
+2. Select **Specification requirements** under **Try a prompt**, then submit the inserted prompt.
 
-3. Confirm that the answer is grounded in the ingested structural engineering specification.
+3. Confirm that the answer is grounded in the ingested Austin structural engineering specification.
 
-4. Ask the governed-data question:
+4. Select **Supplier recommendation**, then submit the inserted prompt.
 
-    ```text
-    Which suppliers are recommended for project AUS-BANK-01, and what evidence supports each recommendation?
-    ```
+5. Confirm that the answer uses the governed semantic-store and ADB MCP path and identifies supporting evidence rather than inventing approvals.
 
-5. Confirm that the answer uses the semantic store and ADB MCP path and identifies evidence rather than inventing approvals.
+6. Open **Runtime configuration** from the right side of the application. Confirm that **Specification search** and **Governed project data** are enabled. Keep **Model routing** and **Prompt-injection protection** disabled for the baseline.
 
-If either test fails, recheck the three entered resource identifiers and the readiness states from Task 2 before recreating the instance.
+    ![Seer Construction Intelligence runtime configuration](images/seer-gradio-config-consteng.png)
 
-You may now proceed to Lab 4. Keep the Container Instance OCID; Lab 4 creates a routed replacement for comparison.
+If either test fails, recheck the three entered resource identifiers and the readiness states from Task 2. You do not need to replace the Container Instance to enable the capabilities in Labs 4 and 5.
+
+You may now proceed to Lab 4. Keep the application open.
 
 ## Learn More
 

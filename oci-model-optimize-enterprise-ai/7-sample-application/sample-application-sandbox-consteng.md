@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you extract, configure, and run Seer Construction Intelligence on your own computer. The Streamlit app uses OCI Enterprise AI Responses, the unstructured vector store for specification search, the semantic store for NL2SQL, and ADB MCP Server for governed project and supplier retrieval.
+In this lab, you extract, configure, and run Seer Construction Intelligence on your own computer. The Gradio app uses OCI Enterprise AI Responses, the unstructured vector store for specification search, the semantic store for NL2SQL, and ADB MCP Server for governed project and supplier retrieval.
 
 Estimated Time: 30 minutes
 
@@ -28,7 +28,7 @@ In this lab, you will:
 - Configure OCI API key authentication
 - Configure the sample app environment with the sandbox resource list
 - Install Python dependencies
-- Run the Streamlit app
+- Run the Gradio app
 - Test the vector store, database retrieval, and image prompts
 - Capture the values needed for model optimization
 
@@ -345,7 +345,7 @@ This lab assumes you have:
 
 3. Confirm that `OCI_ADB_MCP_USERNAME=CONSTRUCTION_ENGINEERING` and `OCI_AUTH_MODE=config_file` are already present.
 
-4. If you used an OCI profile name other than `DEFAULT`, update `OCI_CONFIG_PROFILE`. Keep `OCI_GENAI_MODEL_ROUTING_ENABLED=false` until Lab 4.
+4. If you used an OCI profile name other than `DEFAULT`, update `OCI_CONFIG_PROFILE`. Keep both `OCI_GENAI_MODEL_ROUTING_ENABLED=false` and `OCI_GENAI_PROMPT_PROTECTION_ENABLED=false`. You will implement and enable those capabilities in Labs 4 and 5.
 
 5. Save `.env`. Do not commit it because it contains tenancy-specific identifiers.
 
@@ -415,18 +415,17 @@ This lab assumes you have:
 
 ## Task 6: Run the app
 
-1. Start Streamlit.
+1. Start the Gradio application.
 
     ```bash
     <copy>
-    streamlit run app.py
+    python app.py
     </copy>
     ```
 
-2. If Streamlit does not automatically open your default browser to show the sample app, leave the terminal running and open the local URL shown by Streamlit.
+2. Leave the terminal running and open the local URL shown by Gradio, normally `http://127.0.0.1:8080`.
 
-3. You should see the sample application UI:
-
+3. You should see the Seer Construction Intelligence application. The Build starter intentionally has no **Runtime configuration** menu; developers add the optimization and security decisions in later labs.
 
 4. Note the displayed project code, `AUS-BANK-01`.
 
@@ -438,11 +437,11 @@ This lab assumes you have:
 
     ```text
     <copy>
-    What structural engineering requirements are stated for the Austin project?
+    Use file_search with the query 'structural engineering requirements Austin'. Search all indexed files, then summarize and cite the retrieved evidence.
     </copy>
     ```
 
-    > **Note:** In order to send your request to the LLM, paste the prompt in the text box and press the **Send** button.
+    > **Note:** You can select **Specification requirements** under **Try a prompt** to insert this question, then press **Submit**.
 
 2. Confirm that the answer cites facts from the structural engineering specification rather than inventing project requirements.
 
@@ -464,7 +463,7 @@ Your exact answer can vary by model. Success means the answer is scoped to proje
 
     ```text
     <copy>
-    Which suppliers are recommended for project AUS-BANK-01, and what evidence supports each recommendation?
+    For project AUS-BANK-01, return the recommended suppliers with recommendation status, fit score, risk level, and explanation. Do not aggregate document names.
     </copy>
     ```
 

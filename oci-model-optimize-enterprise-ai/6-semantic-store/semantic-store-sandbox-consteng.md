@@ -41,7 +41,7 @@ This lab assumes you have:
     Connection type: OCI Database tool
     ```
 
-    ![Create structured semantic store](images/semantic-store.png)
+    ![Create the Construction Engineering semantic store](images/semantic-store-consteng.jpg)
 
     Use the connection OCIDs from your sandbox resource list:
 
@@ -49,14 +49,14 @@ This lab assumes you have:
     Enrichment connection ID: <DB Tools Enrichment Connection OCID>
     Querying connection ID: <DB Tools Query Connection OCID>
     Schema: CONSTRUCTION_ENGINEERING
-    Automation: On create
+    Enrichment: On create
     ```
 
 1. Click **Test enrichment connection** to make sure the semantic store can use the connection to connect to the database.
 
 1. Click **Test query connection** to make sure the semantic store can use the connection to connect to the database.
 
-    ![Create structured semantic store](images/create-structured-semantic-store.png)
+    ![Configure the Construction Engineering database connections](images/create-structured-semantic-store-consteng.jpg)
 
 1. Click **Create**.
 
